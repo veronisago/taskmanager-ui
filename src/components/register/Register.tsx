@@ -1,36 +1,40 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../store/authSlice'; // Importar la acción correcta
 import { useNavigate } from 'react-router-dom';
-import { AppDispatch } from '../store/store';
-import axiosInstance from '../services/axios';
+import { setUser } from '../../store/authSlice';
+import Button from '../../common/Button';
+import { AppDispatch } from '../../store/store';
+import axiosInstance from '../../services/axios';
 import axios from 'axios';
 import { Toaster, toast } from 'sonner';
 
-interface LoginPayload {
+
+interface RegisterPayload {
+    name: string;
     email: string;
     password: string;
 }
 
-type LoginResponse = {
+type RegisterUserResponse = {
     user: { id: string; name: string; email: string };
     token: string;
 };
 
-const Login = () => {
+const Register = () => {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
 
-    const loginUser = async (userData: LoginPayload) => {
+    const registerUser = async (userData: RegisterPayload) => {
         try {
-            const response = await axiosInstance.post<LoginResponse>('/auth/login', userData);
+            const response = await axiosInstance.post<RegisterUserResponse>('/auth/register', userData);
             dispatch(setUser(response.data.user));
-            localStorage.setItem("token", response.data.token);
-            navigate('/');
+            toast('User created!')
+            navigate('/login');
         } catch (error) {
-            toast('Credenciales erroneas')
+            toast('Error creating user!')
             if (axios.isAxiosError(error) && error.response) {
                 throw new Error(error.response.data.message || 'Error en el registro');
             }
@@ -41,15 +45,23 @@ const Login = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const userData: LoginPayload = { email, password };
-        await loginUser(userData);
+        const userData: RegisterPayload = { name, email, password };
+        await registerUser(userData);
     };
 
     return (
         <div className='flex items-center justify-center h-screen'>
-            <Toaster />
-            <form onSubmit={handleSubmit} className='bg-white p-6 shadow-md rounded-lg'>
-                <h2 className='text-2xl font-bold mb-4'>Iniciar Sesión</h2>
+            <form onSubmit={handleSubmit} className='bg-white p-6 shadow-md rounded-lg w-96'>
+                <h2 className='text-2xl font-bold mb-4 text-center'>Registro</h2>
+
+                <input
+                    type='text'
+                    placeholder='Nombre'
+                    className='p-2 border rounded w-full mb-3'
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                />
+
                 <input
                     type='email'
                     placeholder='Email'
@@ -57,6 +69,7 @@ const Login = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
+
                 <input
                     type='password'
                     placeholder='Contraseña'
@@ -64,19 +77,20 @@ const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button type='submit' className='w-full p-2 bg-blue-500 text-white rounded'>
-                    Ingresar
-                </button>
-                <button 
-                    type='button' 
-                    className='w-full p-2 bg-green-500 text-white rounded mt-4' 
-                    onClick={() => navigate('/register')}
-                >
+
+                <Button type='submit' className='w-full'>
                     Registrarse
-                </button>
+                </Button>
+
+                <p className='text-sm mt-4 text-center'>
+                    ¿Ya tienes cuenta?{' '}
+                    <a href='/login' className='text-blue-500 hover:underline'>
+                        Inicia sesión
+                    </a>
+                </p>
             </form>
         </div>
     );
 };
 
-export default Login;
+export default Register;

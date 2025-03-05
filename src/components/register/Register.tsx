@@ -2,23 +2,11 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setUser } from '../../store/authSlice';
-import Button from '../../common/Button';
 import { AppDispatch } from '../../store/store';
 import axiosInstance from '../../services/axios';
 import axios from 'axios';
-import { Toaster, toast } from 'sonner';
-
-
-interface RegisterPayload {
-    name: string;
-    email: string;
-    password: string;
-}
-
-type RegisterUserResponse = {
-    user: { id: string; name: string; email: string };
-    token: string;
-};
+import { toast } from 'sonner';
+import { RegisterPayload, RegisterUserResponse } from '../../types';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -31,14 +19,14 @@ const Register = () => {
         try {
             const response = await axiosInstance.post<RegisterUserResponse>('/auth/register', userData);
             dispatch(setUser(response.data.user));
-            toast('User created!')
+            toast.success('User created successfully!');
             navigate('/login');
         } catch (error) {
-            toast('Error creating user!')
+            toast.error('Error creating user!');
             if (axios.isAxiosError(error) && error.response) {
-                throw new Error(error.response.data.message || 'Error en el registro');
+                throw new Error(error.response.data.message || 'Registration error');
             }
-            throw new Error('Error desconocido');
+            throw new Error('Unknown error');
         }
     };
 
@@ -52,11 +40,11 @@ const Register = () => {
     return (
         <div className='flex items-center justify-center h-screen'>
             <form onSubmit={handleSubmit} className='bg-white p-6 shadow-md rounded-lg w-96'>
-                <h2 className='text-2xl font-bold mb-4 text-center'>Registro</h2>
+                <h2 className='text-2xl font-bold mb-4 text-center'>Register</h2>
 
                 <input
                     type='text'
-                    placeholder='Nombre'
+                    placeholder='Full Name'
                     className='p-2 border rounded w-full mb-3'
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -72,20 +60,23 @@ const Register = () => {
 
                 <input
                     type='password'
-                    placeholder='Contraseña'
+                    placeholder='Password'
                     className='p-2 border rounded w-full mb-3'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
 
-                <Button type='submit' className='w-full'>
-                    Registrarse
-                </Button>
-
+                <button
+                    type='submit'
+                    className='w-full px-4 py-2 rounded-lg font-semibold transition-all 
+                  bg-blue-500 hover:bg-blue-600 text-white'
+                >
+                    Sign Up
+                </button>
                 <p className='text-sm mt-4 text-center'>
-                    ¿Ya tienes cuenta?{' '}
+                    Already have an account?{' '}
                     <a href='/login' className='text-blue-500 hover:underline'>
-                        Inicia sesión
+                        Sign in
                     </a>
                 </p>
             </form>

@@ -6,13 +6,12 @@ This project is a web application for managing daily work tasks. It allows users
 
 - [Features](#features)
 - [Technologies Used](#technologies-used)
-- [Architecture and Project Structure](#architecture-and-project-structure)
+- [Architecture](#architecture)
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
 - [Planning and Approach](#planning-and-approach)
 - [Future Improvements](#future-improvements)
-- [License](#license)
 
 ## Features
 
@@ -31,35 +30,20 @@ This project is a web application for managing daily work tasks. It allows users
 - **Tailwind CSS:** For rapid and responsive styling.
 - **Sonner:** For implementing notifications within the application.
 
-## Architecture and Project Structure
+## Architecture
 
-The project is organized as follows:
+The Task Management Dashboard follows a Component-Based Architecture (CBA) combined with Modular principles. The architecture is structured to ensure scalability, maintainability, and reusability.
 
-/src
- ├── components
- │   ├── home
- │   │   └── Home.tsx          // Task management and display
- │   ├── login
- │   │   └── Login.tsx         // Login form
- │   └── register
- │       └── Register.tsx      // Registration form
- ├── common
- │   ├── Navbar.tsx            // Navigation bar component
- │   └── Button.tsx            // Reusable button component
- ├── services
- │   └── axios.ts              // Axios configuration for HTTP requests
- ├── store
- │   ├── authSlice.ts          // Authentication slice for Redux
- │   └── store.ts              // Redux store configuration
- └── utils
-     └── ProtectedRoute.tsx    // Protected route component for route guarding
+- The application is structured using self-contained, reusable components.
+- Each view (Tasks, Login, Register) is a component, allowing for easier development and updates.
+- Common UI elements (Navbar, Layout) are placed in a shared directory (common/) for reusability.
 
 ## Installation
 
 1. **Clone the repository:**
 
-   git clone https://github.com/your_username/your_repository.git
-   cd your_repository
+   git clone https://github.com/veronisago/taskmanager-ui.git
+   cd taskmanager-ui
 
 2. **Install dependencies**:
 

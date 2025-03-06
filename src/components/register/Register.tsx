@@ -7,6 +7,7 @@ import axiosInstance from '../../services/axios';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { RegisterPayload, RegisterUserResponse } from '../../types';
+import Button from '../../common/Button';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -34,6 +35,11 @@ const Register = () => {
         e.preventDefault();
 
         const userData: RegisterPayload = { name, email, password };
+
+        if (!name.trim() || !email.trim() || !password.trim()) {
+            toast.error('Please fill in all fields!');
+            return;
+        }
         await registerUser(userData);
     };
 
@@ -45,7 +51,7 @@ const Register = () => {
                 <input
                     type='text'
                     placeholder='Full Name'
-                    className='p-2 border rounded w-full mb-3'
+                    className='p-2 border rounded w-full mb-3 font-inter'
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
@@ -53,7 +59,7 @@ const Register = () => {
                 <input
                     type='email'
                     placeholder='Email'
-                    className='p-2 border rounded w-full mb-3'
+                    className='p-2 border rounded w-full mb-3 font-inter'
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
@@ -61,18 +67,17 @@ const Register = () => {
                 <input
                     type='password'
                     placeholder='Password'
-                    className='p-2 border rounded w-full mb-3'
+                    className='p-2 border rounded w-full mb-3 font-inter'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
 
-                <button
+                <Button
                     type='submit'
-                    className='w-full px-4 py-2 rounded-lg font-semibold transition-all 
-                  bg-blue-500 hover:bg-blue-600 text-white'
+                    className='w-full bg-blue-500 hover:bg-blue-600'
                 >
                     Sign Up
-                </button>
+                </Button>
                 <p className='text-sm mt-4 text-center'>
                     Already have an account?{' '}
                     <a href='/login' className='text-blue-500 hover:underline'>

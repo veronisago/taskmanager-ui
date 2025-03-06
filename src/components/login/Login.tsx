@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../../store/authSlice'; 
+import { setUser } from '../../store/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { AppDispatch } from '../../store/store';
 import axiosInstance from '../../services/axios';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { LoginPayload, LoginResponse } from '../../types';
+import Button from '../../common/Button';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -18,7 +19,7 @@ const Login = () => {
         try {
             const response = await axiosInstance.post<LoginResponse>('/auth/login', userData);
             dispatch(setUser(response.data.user));
-            localStorage.setItem("token", response.data.token);
+            localStorage.setItem('token', response.data.token);
             navigate('/');
         } catch (error) {
             toast.error('Incorrect credentials!');
@@ -48,27 +49,27 @@ const Login = () => {
                 <input
                     type='email'
                     placeholder='Email'
-                    className='p-2 border rounded w-full mb-3'
+                    className='p-2 border rounded w-full mb-3 font-inter'
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
                     type='password'
                     placeholder='Password'
-                    className='p-2 border rounded w-full mb-3'
+                    className='p-2 border rounded w-full mb-3 font-inter'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button type='submit' className='w-full p-2 bg-blue-500 text-white rounded cursor-pointer'>
+                <Button type='submit' className='w-full bg-blue-500 hover:bg-blue-600'>
                     Sign In
-                </button>
-                <button 
-                    type='button' 
-                    className='w-full p-2 bg-green-500 text-white rounded mt-4 cursor-pointer' 
+                </Button>
+                <Button
+                    type='button'
+                    className='w-full mt-4 bg-green-500 hover:bg-green-600'
                     onClick={() => navigate('/register')}
                 >
                     Register
-                </button>
+                </Button>
             </form>
         </div>
     );

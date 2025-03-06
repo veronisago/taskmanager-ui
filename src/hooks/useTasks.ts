@@ -13,6 +13,7 @@ const useTasks = () => {
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [isNewTask, setIsNewTask] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         getTasks();
@@ -34,7 +35,7 @@ const useTasks = () => {
     };
 
     const handleNewTask = () => {
-        setSelectedTask({ id: '', title: '', description: '', status: 'To Do' });
+        setSelectedTask({ id: '', title: '', description: '', status: 'To Do', createdAt: '' });
         setIsNewTask(true);
         setModalOpen(true);
     };
@@ -52,15 +53,18 @@ const useTasks = () => {
 
     const handleSaveTask = async () => {
         if (!selectedTask) return;
+        setLoading(true)
         try {
             if (isNewTask) {
                 await axiosInstance.post(`/tasks`, selectedTask);
             } else {
                 await axiosInstance.put(`/tasks/${selectedTask.id}`, selectedTask);
             }
+            setLoading(false)
             setModalOpen(false);
             getTasks();
         } catch (error) {
+            setLoading(false)
             console.error('Error saving task', error);
             toast('Error creating task!');
         }
@@ -77,6 +81,7 @@ const useTasks = () => {
         handleDelete,
         handleSaveTask,
         setSelectedTask,
+        loading
     };
 };
 

@@ -1,7 +1,20 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
+@layer base {
+    :root {
+        --font-sora: 'Sora', sans-serif;
+        --font-inter: 'Inter', sans-serif;
+    }
+}
 
-@theme {
-    --font-sora: "Sora", "sans-serif"; 
-    --font-sora: "Inter", "sans-serif"; 
-  }
+@layer base {
+    html {
+        font-family: var(--font-sora);
+    }
+}
+
+@layer utilities {
+    .font-inter {
+        font-family: var(--font-inter);
+    }
+}

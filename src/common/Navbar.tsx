@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../store/authSlice';
+import Button from './Button';
 
 const NavBar = () => {
     const dispatch = useDispatch();
@@ -18,12 +19,12 @@ const NavBar = () => {
                 <i className='fa fa-solid fa-house text-xl'></i>
                 <h1 className='text-xl font-bold'>Task Manager</h1>
             </div>
-            <button
+            <Button
                 onClick={handleLogout}
-                className='font-sora p-2 bg-red-500 text-white rounded flex items-center gap-2 text-sm cursor-pointer'
+                className='bg-red-500 hover:bg-red-600 text-white rounded flex items-center gap-2'
             >
-               Log Out <i className='fas fa-sign-out-alt'></i>
-            </button>
+                Log Out <i className='fas fa-sign-out-alt'></i>
+            </Button>
         </nav>
     );
 };

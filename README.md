@@ -28,6 +28,7 @@ This project is a web application for managing daily work tasks. It allows users
 - **Redux:** For managing global state (for authenticated user data).
 - **Axios:** For handling HTTP requests to the backend.
 - **Tailwind CSS:** For rapid and responsive styling.
+- **Typescript:** For static typing and increased code safety
 - **Sonner:** For implementing notifications within the application.
 
 ## Architecture
@@ -36,7 +37,7 @@ The Task Management Dashboard follows a Component-Based Architecture (CBA) combi
 
 - The application is structured using self-contained, reusable components.
 - Each view (Tasks, Login, Register) is a component, allowing for easier development and updates.
-- Common UI elements (Navbar, Layout) are placed in a shared directory (common/) for reusability.
+- Common UI elements (Navbar, Layout, Modal, Button) are placed in a shared directory (common/) for reusability.
 
 ## Installation
 
@@ -52,6 +53,7 @@ The Task Management Dashboard follows a Component-Based Architecture (CBA) combi
 3. **Configure environment variables (if needed)**:
 
    Create a .env file in the root of the project to set up the backend URL and any other required variables.
+   VITE_API_URL=http://localhost:5000/api
 
 4. **Run the application**:
 
@@ -104,19 +106,21 @@ Implemented core functionalities in a modular fashion:
 - **Task Management:** Creating, editing, and deleting tasks with API communication.
 - **User Interface:** A responsive design with notifications for better user experience.
 
-**Testing and Validation:**  
-Conducted tests to ensure proper backend communication, data integrity, and an optimal user experience across various devices.
 
 ## Future Improvements
 
 **UI/UX Optimization:**  
 Refine the design with animations and improved accessibility practices.
 
+**CI/CD Integration:**  
+Set up continuous integration and deployment (CI/CD) using tools like GitHub Actions, GitLab CI, or CircleCI.
+
 **Enhanced Error Handling and Validation:**  
 Implement form validations and more robust error handling on both the frontend and backend.
 
-**WebSockets Integration:**  
-Enable real-time notifications and instant task synchronization across multiple sessions.
+**Additional Functionalities:**  
+-Add functionality to search and filter tasks by title, status, date, etc.
+-Implement drag-and-drop functionality to change task status
 
 **Automated Testing:**  
 Add unit and integration tests to ensure code stability and quality.
